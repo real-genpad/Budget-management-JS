@@ -1,0 +1,31 @@
+<div class="main-wrapper">
+    <h1 class="main-header diagram-header h3">Главная</h1>
+
+    <div class="main-diagram-periods diagram-periods d-flex gap-3 align-items-center">
+        <button type="button" class="diagram-btn btn btn-outline-secondary active ">Сегодня</button>
+        <button type="button" class="diagram-btn btn btn-outline-secondary ">Неделя</button>
+        <button type="button" class="diagram-btn btn btn-outline-secondary ">Месяц</button>
+        <button type="button" class="diagram-btn btn btn-outline-secondary ">Год</button>
+        <button type="button" class="diagram-btn btn btn-outline-secondary ">Все</button>
+        <p type="button" class="diagram-btn btn btn-outline-secondary m-0 ">Интервал</p>
+        <span>с</span>
+        <a href="javascript:void(0)" id="startDate" data-toggle="datepicker">Дата</a>
+        <span>по</span>
+        <a href="javascript:void(0)" id="endDate" data-toggle="datepicker">Дата</a>
+    </div>
+
+    <div class="diagram-wrap row text-center d-flex">
+        <div class="diagram-container">
+            <div class="diagram">
+                <h3 class="diagram-title">Доходы</h3>
+                <img src="/images/pieLegend.png" alt="Diagram parts">
+                <img src="/images/pie1.png" alt="Income diagram">
+            </div>
+            <div class="diagram">
+                <h3 class="diagram-title">Расходы</h3>
+                <img src="/images/pieLegend.png" alt="Diagram parts">
+                <img src="/images/pie2.png" alt="Expenses diagram">
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,33 @@
+<div class="main-wrapper">
+    <h1 class="main-header income-and-expenses-header h3">Редактирование дохода/расхода</h1>
+
+    <form class="form">
+        <div class="select">
+            <select class="form-select" aria-label="Default select example">
+                <option >Тип...</option>
+                <option value="1" selected>Доход</option>
+                <option value="2">Расхода</option>
+            </select>
+        </div>
+        <div class="select">
+            <select class="form-select" aria-label="Default select example">
+                <option >Категория...</option>
+                <option value="1" selected>Депозиты</option>
+                <option value="2">Зарплата</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <input type="number" class="form-control" placeholder="Сумма в $...">
+        </div>
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Дата...">
+        </div>
+        <div class="input-group">
+            <textarea class="form-control" placeholder="Комментарий..." id="floatingTextarea"></textarea>
+        </div>
+        <div class="create-operations">
+            <a href="/income-and-expenses" type="button" class="operations-btn  btn btn-success">Сохранить</a>
+            <a href="/income-and-expenses" type="button" class="operations-btn btn btn-danger">Отмена</a>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,78 @@
+<div class="main-wrapper">
+    <h1 class="main-header income-and-expenses-header h3">Доходы и расходы</h1>
+
+    <div class="create-operations">
+        <a href="/income-and-expenses-create" type="button" class="operations-btn btn btn-success">Создать доход</a>
+        <a href="/income-and-expenses-create" type="button" class="operations-btn btn btn-danger">Создать расход</a>
+    </div>
+
+    <div class="operations-diagram-periods diagram-periods d-flex gap-3 align-items-center">
+        <button type="button" class="diagram-btn btn btn-outline-secondary active ">Сегодня</button>
+        <button type="button" class="diagram-btn btn btn-outline-secondary ">Неделя</button>
+        <button type="button" class="diagram-btn btn btn-outline-secondary ">Месяц</button>
+        <button type="button" class="diagram-btn btn btn-outline-secondary ">Год</button>
+        <button type="button" class="diagram-btn btn btn-outline-secondary ">Все</button>
+        <p type="button" class="diagram-btn btn btn-outline-secondary m-0 ">Интервал</p>
+        <span>с</span>
+        <a href="javascript:void(0)" id="startDate" data-toggle="datepicker">Дата</a>
+        <span>по</span>
+        <a href="javascript:void(0)" id="endDate" data-toggle="datepicker">Дата</a>
+    </div>
+
+    <div class="table-responsive overflow-auto">
+        <hr>
+        <table class="table table-hover ">
+            <thead>
+            <tr>
+                <th scope="col">№ операции</th>
+                <th scope="col">Тип</th>
+                <th scope="col">Категория</th>
+                <th scope="col">Сумма</th>
+                <th scope="col">Дата</th>
+                <th scope="col">Комментарий</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td class="text-success">доход</td>
+                <td>зарплата</td>
+                <td>500$</td>
+                <td>11.09.2022</td>
+                <td></td>
+                <td>
+                    <a href="javascript:void(0)" class="btn" type="button"  data-bs-toggle="modal" data-bs-target="#exampleModalCenter"><i class="bi bi-trash"></i></a>
+                    <a href="/income-and-expenses-edit" class="btn" type="button"><i class="bi bi-pencil"></i></a>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td class="text-danger">расход</td>
+                <td>жильё</td>
+                <td>2 500$</td>
+                <td>12.09.2022</td>
+                <td></td>
+                <td>
+                    <button class="btn" type="button" data-bs-toggle="modal" data-bs-target="#exampleModalCenter"><i class="bi bi-trash"></i></button>
+                    <button class="btn" type="button"><i class="bi bi-pencil"></i></button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" aria-labelledby="exampleModalCenterTitle" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <p>Вы действительно хотите удалить операцию?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="javascript:void(0)" type="button" class="modal-btn btn btn-success" data-bs-dismiss="modal">Да, удалить</a>
+                        <a href="/income-and-expenses-edit" type="button" class="modal-btn btn btn-danger">Не удалять</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

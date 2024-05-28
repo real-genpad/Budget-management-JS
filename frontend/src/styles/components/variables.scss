@@ -7,3 +7,11 @@ $main-text-active-color: #fff;
 $main-chart-text-color: #290661;
 $modal-text-color: #290661;
 $plus-sign-color: #CED4DA;
+
+@mixin disabled-button {
+  background-color: #e2fed7;
+  cursor: not-allowed !important;
+  border-color: grey;
+  color: grey;
+  pointer-events: all;
+}

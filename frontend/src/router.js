@@ -10,6 +10,7 @@ import {IncomeCreate} from "./components/income/income-create";
 import {Expenses} from "./components/expenses/expenses";
 import {ExpensesEdit} from "./components/expenses/expenses-edit";
 import {ExpensesCreate} from "./components/expenses/expenses-create";
+import {Logout} from "./components/logout";
 
 export class Router {
     constructor() {
@@ -33,7 +34,7 @@ export class Router {
                 useLayout: false,
                 load: () => {
                     document.body.classList.add('d-flex', 'justify-content-center', 'align-items-center', 'vh-100');
-                    new Login();
+                    new Login(this.openNewRoute.bind(this));
                 },
                 unload: () => {
                     document.body.classList.remove('d-flex', 'justify-content-center', 'align-items-center', 'vh-100');
@@ -46,7 +47,7 @@ export class Router {
                 useLayout: false,
                 load: () => {
                     document.body.classList.add('d-flex', 'justify-content-center', 'align-items-center', 'vh-100');
-                    new SignUp();
+                    new SignUp(this.openNewRoute.bind(this));
                 },
                 unload: () => {
                     document.body.classList.remove('d-flex', 'justify-content-center', 'align-items-center', 'vh-100');
@@ -133,17 +134,31 @@ export class Router {
                     new ExpensesCreate();
                 },
             },
+            {
+                route: '/logout',
+                load: () => {
+                    new Logout(this.openNewRoute.bind(this));
+                }
+            }
         ]
     }
 
     initEvents() {
         window.addEventListener('DOMContentLoaded', this.activateRout.bind(this));
         window.addEventListener('popstate', this.activateRout.bind(this));
-        document.addEventListener('click', this.openNewRoute.bind(this)); //переход по страницам без пересборки приложения
+        document.addEventListener('click', this.clickHandler.bind(this)); //переход по страницам без пересборки приложения
     }
 
-    async openNewRoute(e){
+    async openNewRoute(url){ //переходим на новую страницу, неважно это клик по ссылке от пользователя
+                                        // или принудительный перевод
+        //5.вызываем нужные действия, чтобы сменить страницу
+        const currentRoute = window.location.pathname; //берем текущий роут
+        history.pushState({}, '', url); //изменяем url-адрес в браузере
+        await this.activateRout(null, currentRoute); //вызываем ф-цию activateRout с текущим роутом
+    }
 
+    async clickHandler(e){ //обрабатываем клик по ссылке
+        //1.ищем элемент
         let element = null;
         if(e.target.nodeName === 'A'){
             element = e.target;
@@ -151,15 +166,16 @@ export class Router {
             element = e.target.parentNode;
         }
 
+        //2.обрабатываем клик по элементу
+        //3.если элемент нашелся
         if(element){
             e.preventDefault();
+            //4.берем из него url-адрес
             const url = element.href.replace(window.location.origin, '');
             if(!url || url === '/#' || url.startsWith('javascript:void(0)')){
-                return
+                return;
             }
-            const currentRoute = window.location.pathname;
-            history.pushState({}, '', url);
-            await this.activateRout(null, currentRoute);
+            await this.openNewRoute(url);
         }
     }
 

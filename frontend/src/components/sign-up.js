@@ -1,8 +1,11 @@
+import {AuthUtils} from "../utils/auth-utils";
+import {HttpUtils} from "../utils/http-utils";
+
 export class SignUp {
     constructor(openNewRoute) {
         this.openNewRoute = openNewRoute;
 
-        if(localStorage.getItem('accessToke')){
+        if(AuthUtils.getAuthInfo(AuthUtils.accessTokenKey)){
             return this.openNewRoute('/');
         }
 
@@ -11,7 +14,7 @@ export class SignUp {
                 name: 'name',
                 id: 'name',
                 element: null,
-                regex: /^[А-ЯA-Z][а-яa-z]+\s[А-ЯA-Z][а-яa-z]+$/,
+                regex: /^[А-ЯA-Z][а-яa-z]+(-[А-ЯA-Z][а-яa-z]+)?(\s[А-ЯA-Z][а-яa-z]+(-[А-ЯA-Z][а-яa-z]+)?)*$/,
                 valid: false
             },
             {
@@ -97,50 +100,31 @@ export class SignUp {
     async signUp (){
         this.commonErrorElement.style.display = 'none';
         if (this.validateForm()) {
-            const response = await fetch('http://localhost:3000/api/signup', {
-                method: 'POST',
-                headers: {
-                    'Content-type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
+            try{
+                const result = await HttpUtils.request('/signup', 'POST', {
                     name: this.fields.find(item => item.name === 'name').element.value.split(' ')[0],
                     lastName: this.fields.find(item => item.name === 'name').element.value.split(' ')[1],
                     email: this.fields.find(item => item.name === 'email').element.value,
                     password: this.fields.find(item => item.name === 'password').element.value,
                     passwordRepeat: this.fields.find(item => item.name === 'repeatPassword').element.value
-                })
-            });
-            const result = await response.json();
-            console.log(result);
-            if (result.error || !result.user.id || !result.user.email || !result.user.name || !result.user.lastName) {
-                this.commonErrorElement.style.display = 'block';
-                return;
-            } else {
-                const response = await fetch('http://localhost:3000/api/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        email: this.fields.find(item => item.name === 'email').element.value,
-                        password: this.fields.find(item => item.name === 'password').element.value
-                    })
                 });
-                const result = await response.json();
-                if (result.error || !result.tokens || !result.user) {
-                    this.commonErrorElement.style.display = 'block';
-                    return;
+
+                if (result.error || !result.response || (result.response && !result.response.user)) {
+                    throw new Error('Login failed');
                 }
-                localStorage.setItem('accessToken', result.tokens.accessToken);
-                localStorage.setItem('refreshToken', result.tokens.refreshToken);
-                localStorage.setItem('userInfo', JSON.stringify({
-                    id: result.user.id,
-                    name: result.user.name + ' ' + result.user.lastName
-                }));
+            } catch (error) {
+                this.commonErrorElement.style.display = 'block';
             }
-            this.openNewRoute('/');
+
+            try {
+                await AuthUtils.performLogin(
+                    this.fields.find(item => item.name === 'email').element.value,
+                    this.fields.find(item => item.name === 'password').element.value
+                );
+                this.openNewRoute('/');
+            } catch (error) {
+                this.commonErrorElement.style.display = 'block';
+            }
         }
     }
 }

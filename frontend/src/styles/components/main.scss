@@ -40,8 +40,8 @@
   margin-bottom: 20px;
 }
 
-.diagram-wrap .diagram img {
-  width: 100%;
+.diagram-wrap .diagram .chart {
+  width: 445px;
   margin-bottom: 40px;
 }
 
@@ -53,7 +53,7 @@
   }
 
   .diagram-wrap .diagram {
-    max-width: 340px;
+    max-width: 437px;
   }
 
   .diagram:first-child {
@@ -94,6 +94,10 @@
 }
 
 @media (max-width: 576px) {
+  .diagram-wrap .diagram .chart {
+    max-width: 300px;
+  }
+
   .diagram-header  {
     margin-bottom: 20px;
   }

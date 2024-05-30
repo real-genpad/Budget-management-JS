@@ -3,6 +3,7 @@
         <div class="login-logo text-center"><a><img class="mb-4" src="/images/Logo.png" alt="Logo"></a>
         </div>
         <h1 class="form-header h3 mb-4 mt-4 text-center">Вход</h1>
+        <div class="invalid-feedback text-center mb-2" id="common-error">Неверный email или пароль</div>
         <div class="input-group mb-2">
                 <span class="input-group-text" id="basic-addon">
                   <i class="form-icon bi bi-envelope-open"></i>
@@ -17,7 +18,7 @@
                 <span class="input-group-text" id="basic-addon1">
                   <i class="form-icon bi bi-lock"></i>
                 </span>
-            <input type="text" class="form-control" placeholder="Пароль" aria-label="Input group example"
+            <input type="password" class="form-control" placeholder="Пароль" aria-label="Input group example"
                    aria-describedby="basic-addon1" id="password">
             <div id="password-error" class="invalid-feedback">
                 Введите пароль
@@ -30,7 +31,7 @@
                 Запомнить меня
             </label>
         </div>
-        <button class="btn btn-primary w-100 py-2" type="button" id="process-button">Войти</button>
+        <button class="process-button btn btn-primary w-100 py-2" type="button" id="process-button" disabled>Войти</button>
     </form>
     <p class="mt-2 mb-2">Ещё нет аккаунта? <a href="/sign-up">Пройдите регистрацию</a></p>
 </main>

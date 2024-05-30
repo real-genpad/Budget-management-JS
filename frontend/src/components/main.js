@@ -1,5 +1,7 @@
+import {CustomChart} from "../config/chart";
+
 export class Main {
     constructor() {
-        console.log('main');
+        new CustomChart();
     }
 }

@@ -23,8 +23,9 @@ export class Router {
                 title: 'Главная',
                 filePathTemplate: '/templates/main.html',
                 useLayout: '/templates/layout.html',
+                requiresAuth: true,
                 load: () => {
-                    new Main();
+                    new Main(this.openNewRoute.bind(this));
                 }
             },
             {
@@ -32,6 +33,7 @@ export class Router {
                 title: 'Авторизация',
                 filePathTemplate: '/templates/login.html',
                 useLayout: false,
+                requiresAuth: false,
                 load: () => {
                     document.body.classList.add('d-flex', 'justify-content-center', 'align-items-center', 'vh-100');
                     new Login(this.openNewRoute.bind(this));
@@ -45,6 +47,7 @@ export class Router {
                 title: 'Регистрация',
                 filePathTemplate: '/templates/sign-up.html',
                 useLayout: false,
+                requiresAuth: false,
                 load: () => {
                     document.body.classList.add('d-flex', 'justify-content-center', 'align-items-center', 'vh-100');
                     new SignUp(this.openNewRoute.bind(this));
@@ -58,8 +61,9 @@ export class Router {
                 title: 'Доходы и расходы',
                 filePathTemplate: '/templates/income-and-expenses/income-expenses.html',
                 useLayout: '/templates/layout.html',
+                requiresAuth: true,
                 load: () => {
-                    new IncomeAndExpenses();
+                    new IncomeAndExpenses(this.openNewRoute.bind(this));
                 },
             },
             {
@@ -67,8 +71,9 @@ export class Router {
                 title: 'Создание дохода/расхода',
                 filePathTemplate: '/templates/income-and-expenses/income-expenses-create.html',
                 useLayout: '/templates/layout.html',
+                requiresAuth: true,
                 load: () => {
-                    new IncomeAndExpensesCreate();
+                    new IncomeAndExpensesCreate(this.openNewRoute.bind(this));
                 },
             },
             {
@@ -76,8 +81,9 @@ export class Router {
                 title: 'Редактирование дохода/расхода',
                 filePathTemplate: '/templates/income-and-expenses/income-expenses-edit.html',
                 useLayout: '/templates/layout.html',
+                requiresAuth: true,
                 load: () => {
-                    new IncomeAndExpensesEdit();
+                    new IncomeAndExpensesEdit(this.openNewRoute.bind(this));
                 },
             },
             {
@@ -85,8 +91,9 @@ export class Router {
                 title: 'Доходы',
                 filePathTemplate: '/templates/income/income.html',
                 useLayout: '/templates/layout.html',
+                requiresAuth: true,
                 load: () => {
-                    new Income();
+                    new Income(this.openNewRoute.bind(this));
                 },
             },
             {
@@ -94,8 +101,9 @@ export class Router {
                 title: 'Редактирование категории доходов',
                 filePathTemplate: '/templates/income/income-edit.html',
                 useLayout: '/templates/layout.html',
+                requiresAuth: true,
                 load: () => {
-                    new IncomeEdit();
+                    new IncomeEdit(this.openNewRoute.bind(this));
                 },
             },
             {
@@ -103,8 +111,9 @@ export class Router {
                 title: 'Создание категории доходов',
                 filePathTemplate: '/templates/income/income-create.html',
                 useLayout: '/templates/layout.html',
+                requiresAuth: true,
                 load: () => {
-                    new IncomeCreate();
+                    new IncomeCreate(this.openNewRoute.bind(this));
                 },
             },
             {
@@ -112,8 +121,9 @@ export class Router {
                 title: 'Расходы',
                 filePathTemplate: '/templates/expenses/expenses.html',
                 useLayout: '/templates/layout.html',
+                requiresAuth: true,
                 load: () => {
-                    new Expenses();
+                    new Expenses(this.openNewRoute.bind(this));
                 },
             },
             {
@@ -121,8 +131,9 @@ export class Router {
                 title: 'Редактирование категории расходов',
                 filePathTemplate: '/templates/expenses/expenses-edit.html',
                 useLayout: '/templates/layout.html',
+                requiresAuth: true,
                 load: () => {
-                    new ExpensesEdit();
+                    new ExpensesEdit(this.openNewRoute.bind(this));
                 },
             },
             {
@@ -130,12 +141,14 @@ export class Router {
                 title: 'Создание категории расходов',
                 filePathTemplate: '/templates/expenses/expenses-create.html',
                 useLayout: '/templates/layout.html',
+                requiresAuth: true,
                 load: () => {
-                    new ExpensesCreate();
+                    new ExpensesCreate(this.openNewRoute.bind(this));
                 },
             },
             {
                 route: '/logout',
+                requiresAuth: false,
                 load: () => {
                     new Logout(this.openNewRoute.bind(this));
                 }
@@ -190,6 +203,10 @@ export class Router {
         const newRoute = this.routes.find(item => item.route === urlRoute);
 
         if (newRoute) {
+            if (newRoute.requiresAuth && !this.isAuthenticated()) {
+                return this.openNewRoute('/sign-up');
+            }
+
             if (newRoute.title) {
                 this.titlePageElement.innerText = newRoute.title;
             }
@@ -211,5 +228,9 @@ export class Router {
             history.pushState({}, '', '/');
             await this.activateRout();
         }
+    }
+
+    isAuthenticated() {
+        return !!localStorage.getItem('accessToken');
     }
 }

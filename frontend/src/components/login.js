@@ -1,8 +1,11 @@
+import {AuthUtils} from "../utils/auth-utils";
+import {HttpUtils} from "../utils/http-utils";
+
 export class Login {
     constructor(openNewRoute) {
         this.openNewRoute = openNewRoute;
 
-        if(localStorage.getItem('accessToke')){
+        if(AuthUtils.getAuthInfo(AuthUtils.accessTokenKey)){
             return this.openNewRoute('/');
         }
 
@@ -68,32 +71,34 @@ export class Login {
     async login() {
         this.commonErrorElement.style.display = 'none';
         if (this.validateForm()) {
-            const response = await fetch('http://localhost:3000/api/login', {
-                method: 'POST',
-                headers: {
-                    'Content-type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    email: this.fields.find(item => item.name === 'email').element.value,
-                    password: this.fields.find(item => item.name === 'password').element.value,
-                    rememberMe: this.rememberMeElement.checked
-                })
-            });
-            const result = await response.json();
-            if (result.error || !result.tokens || !result.user) {
+            try {
+                await AuthUtils.performLogin(
+                    this.fields.find(item => item.name === 'email').element.value,
+                    this.fields.find(item => item.name === 'password').element.value,
+                    this.rememberMeElement.checked
+                );
+                this.openNewRoute('/');
+            } catch (error) {
                 this.commonErrorElement.style.display = 'block';
-                return;
             }
 
-            localStorage.setItem('accessToken', result.tokens.accessToken);
-            localStorage.setItem('refreshToken', result.tokens.refreshToken);
-            localStorage.setItem('userInfo', JSON.stringify({
-                id: result.user.id,
-                name: result.user.name + ' ' + result.user.lastName
-            }));
-
-            this.openNewRoute('/');
+            // const result = await HttpUtils.request('/login', 'POST', {
+            //     email: this.fields.find(item => item.name === 'email').element.value,
+            //     password: this.fields.find(item => item.name === 'password').element.value,
+            //     rememberMe: this.rememberMeElement.checked
+            // });
+            //
+            // if (result.error || !result.response || (result.response && (!result.response.tokens || !result.response.user))) {
+            //     this.commonErrorElement.style.display = 'block';
+            //     return;
+            // }
+            //
+            // AuthUtils.setAuthInfo(result.response.tokens.accessToken, result.response.tokens.refreshToken, {
+            //     id: result.response.user.id,
+            //     name: result.response.user.name + ' ' + result.response.user.lastName
+            // })
+            //
+            // this.openNewRoute('/');
         }
     }
 }

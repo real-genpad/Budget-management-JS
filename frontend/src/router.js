@@ -204,7 +204,7 @@ export class Router {
 
         if (newRoute) {
             if (newRoute.requiresAuth && !this.isAuthenticated()) {
-                return this.openNewRoute('/sign-up');
+                return this.openNewRoute('/login');
             }
 
             if (newRoute.title) {

@@ -18,6 +18,6 @@ export class Logout {
         //независимо от успешности запроса разлогиниваем пользователя
         AuthUtils.removeAuthInfo()
 
-        this.openNewRoute('/sign-up');
+        this.openNewRoute('/login');
     }
 }

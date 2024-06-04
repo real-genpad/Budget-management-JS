@@ -12,6 +12,7 @@
   display: flex;
   justify-content: space-between;
   position: relative;
+  padding: 0;
 
   &::after {
     content: "";
@@ -24,7 +25,7 @@
   }
 
 .diagram-wrap .diagram {
-  max-width: 440px;
+  width: 440px;
 }
 
 .diagram:first-child {
@@ -41,7 +42,7 @@
 }
 
 .diagram-wrap .diagram .chart {
-  width: 445px;
+  width: 440px;
   margin-bottom: 40px;
 }
 
@@ -53,7 +54,7 @@
   }
 
   .diagram-wrap .diagram {
-    max-width: 437px;
+    width: 380px;
   }
 
   .diagram:first-child {
@@ -62,6 +63,20 @@
 
   .diagram:last-child {
     margin-left: 30px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .diagram-wrap .diagram {
+    width: 350px;
+  }
+
+  .diagram:first-child {
+    margin-right: 10px;
+  }
+
+  .diagram:last-child {
+    margin-left: 10px;
   }
 }
 
@@ -81,12 +96,6 @@
   }
 }
 
-@media (min-width: 992px) {
-  .diagram-wrap .diagram {
-    max-width: 540px;
-  }
-}
-
 @media (max-width: 992px) {
   .main-diagram-periods {
     margin-bottom: 50px;
@@ -94,8 +103,8 @@
 }
 
 @media (max-width: 576px) {
-  .diagram-wrap .diagram .chart {
-    max-width: 300px;
+  .diagram-wrap .diagram {
+    width: 300px;
   }
 
   .diagram-header  {

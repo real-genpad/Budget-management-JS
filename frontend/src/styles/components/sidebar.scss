@@ -133,7 +133,13 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (min-width: 768px) {
+  .navbar-expand-md .navbar-nav {
+    align-items: center;
+  }
+}
+
+@media (max-width: 766px) {
   .navbar .collapse {
     width: 200px;
     margin: 0 auto;

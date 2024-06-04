@@ -12,7 +12,9 @@ body {
 //Общие стили для всех основных страниц (wrapper и заголовок)
 
 .main-wrapper {
-  padding: 100px 60px;
+  overflow-x: hidden;
+  padding-top: 100px;
+  padding-left: 60px;
 }
 
 .main-header {
@@ -27,7 +29,7 @@ body {
 .diagram-periods {
   display: flex;
   flex-wrap: nowrap;
-  gap: 3px;
+  gap: 10px;
   align-items: center;
 }
 
@@ -53,7 +55,8 @@ body {
 
 @media (max-width: 991px) {
   .main-wrapper {
-    padding: 10px 20px;
+    padding-top: 10px;
+    padding-left: 20px;
   }
 }
 
@@ -76,7 +79,7 @@ body {
 
 @media (max-width: 576px) {
   .main-wrapper {
-    padding: 20px 20px;
+    padding-top: 20px;
   }
 
   .btn {

@@ -5,6 +5,7 @@ const CopyPlugin = require("copy-webpack-plugin");
 module.exports = {
     entry: './src/app.js',
     mode: 'development',
+    cache: false,
     output: {
         filename: 'app.js',
         path: path.resolve(__dirname, 'dist'),
@@ -13,6 +14,7 @@ module.exports = {
         static: {
             directory: path.join(__dirname, 'public'),
         },
+        liveReload: true,
         compress: true,
         port: 9000,
         historyApiFallback: true,

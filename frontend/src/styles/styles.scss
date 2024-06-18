@@ -51,6 +51,10 @@ body {
   font-weight: 500;
 }
 
+.diagram-periods .date {
+  cursor: pointer;
+}
+
 //Общий адаптив для всех основных страниц: wrapper и заголовок, кнопки с выбором дат
 
 @media (max-width: 991px) {

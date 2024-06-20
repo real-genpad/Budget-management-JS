@@ -11,6 +11,7 @@ import {Expenses} from "./components/expenses/expenses";
 import {ExpensesEdit} from "./components/expenses/expenses-edit";
 import {ExpensesCreate} from "./components/expenses/expenses-create";
 import {Logout} from "./components/logout";
+import {IncomeAndExpensesDelete} from "./components/income-expenses/income-expenses-delete";
 
 export class Router {
     constructor() {
@@ -84,6 +85,13 @@ export class Router {
                 requiresAuth: true,
                 load: () => {
                     new IncomeAndExpensesEdit(this.openNewRoute.bind(this));
+                },
+            },
+            {
+                route: '/income-and-expenses-delete',
+                requiresAuth: false,
+                load: () => {
+                    new IncomeAndExpensesDelete(this.openNewRoute.bind(this));
                 },
             },
             {

@@ -3,8 +3,8 @@ import {HttpUtils} from "../../utils/http-utils";
 export class IncomeAndExpensesCreate {
     constructor(openNewRoute) {
         this.openNewRoute = openNewRoute;
-        this.incomeOperation = null;
-        this.expenseOperation = null;
+        this.incomeOperation = null; //сюда сохраним категории доходов
+        this.expenseOperation = null; //сюда сохраним категории расходов
         this.typeSelectElement = document.getElementById('type-select');
         this.categorySelectElement = document.getElementById('category-select');
         this.sumElement = document.getElementById('sum');
@@ -13,26 +13,26 @@ export class IncomeAndExpensesCreate {
         this.getExpenseCategories().then();
         this.getIncomeCategories().then();
 
-        this.typeSelectElement.addEventListener('change', () => {
+        this.typeSelectElement.addEventListener('change', () => { //если юзер поменял тип в селекте, то меняем наполнение для категорий
             this.showCategories(this.incomeOperation, this.expenseOperation);
         });
 
         document.getElementById('create-button').addEventListener('click', this.saveOperation.bind(this));
     }
 
-    async getIncomeCategories() {
+    async getIncomeCategories() { //получаем категории для доходов
         const result = await HttpUtils.request('/categories/income');
         this.incomeOperation = result.response;
         this.showCategories(this.incomeOperation, []);
     }
 
-    async getExpenseCategories() {
+    async getExpenseCategories() { //подучаем категории для расходов
         const result = await HttpUtils.request('/categories/expense');
         this.expenseOperation = result.response;
         this.showCategories([], this.expenseOperation);
     }
 
-    showCategories(incomeOperation, expenseOperation) {
+    showCategories(incomeOperation, expenseOperation) { //наполняем селекты в зависимости от выбранного типа
         //console.log(incomeOperation, expenseOperation);
         this.categorySelectElement.innerHTML = '';
 
@@ -40,7 +40,7 @@ export class IncomeAndExpensesCreate {
             for (let i = 0; i < incomeOperation.length; i++) {
                 const optionElement = document.createElement('option');
                 optionElement.setAttribute("value", incomeOperation[i].id);
-                optionElement.innerText = this.incomeOperation[i].title;
+                optionElement.innerText = incomeOperation[i].title;
                 this.categorySelectElement.appendChild(optionElement);
             }
         } else if (this.typeSelectElement.value === 'expense') {
@@ -53,7 +53,7 @@ export class IncomeAndExpensesCreate {
         }
     }
 
-    validateForm(){
+    validateForm(){ //валидация формы на заполненность полей
         let isValid = true;
         if (this.typeSelectElement.value === 'type'){
             this.typeSelectElement.classList.add('is-invalid');
@@ -88,7 +88,7 @@ export class IncomeAndExpensesCreate {
         return isValid;
     }
 
-    async saveOperation(e){
+    async saveOperation(e){ //запрос для сохранения операции
         e.preventDefault();
         if (this.validateForm()){
             const result = await HttpUtils.request('/operations', 'POST', true, {

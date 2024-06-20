@@ -6,7 +6,7 @@ export class Income{
         this.getIncomeList().then();
     }
 
-    async getIncomeList(){
+    async getIncomeList(){ //запрос на получение категорий доходов
             const result = await HttpUtils.request('/categories/income');
             if(result.redirect){
                 return this.openNewRoute(result.redirect);
@@ -18,7 +18,7 @@ export class Income{
             this.showIncomeList(result.response);
     }
 
-    showIncomeList(income){
+    showIncomeList(income){ //рисуем блоки с категориями
         const cardsElement = document.getElementById('cards');
         for (let i = 0; i < income.length; i++) {
             const cardElement = document.createElement('div');

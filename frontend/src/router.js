@@ -12,6 +12,7 @@ import {ExpensesEdit} from "./components/expenses/expenses-edit";
 import {ExpensesCreate} from "./components/expenses/expenses-create";
 import {Logout} from "./components/logout";
 import {IncomeAndExpensesDelete} from "./components/income-expenses/income-expenses-delete";
+import {IncomeDelete} from "./components/income/income-delete";
 
 export class Router {
     constructor() {
@@ -122,6 +123,13 @@ export class Router {
                 requiresAuth: true,
                 load: () => {
                     new IncomeCreate(this.openNewRoute.bind(this));
+                },
+            },
+            {
+                route: '/income-delete',
+                requiresAuth: false,
+                load: () => {
+                    new IncomeDelete(this.openNewRoute.bind(this));
                 },
             },
             {

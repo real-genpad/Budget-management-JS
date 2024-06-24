@@ -4,9 +4,12 @@
     <form class="form">
         <div class="input-group">
             <input type="text" class="form-control" placeholder="Название...">
+            <div id="category-error" class="invalid-feedback">
+                Введите название
+            </div>
         </div>
         <div class="create-operations">
-            <a href="/income" type="button" class="operations-btn  btn btn-success">Сохранить</a>
+            <button type="button" class="operations-btn  btn btn-success" id="create-button">Сохранить</button>
             <a href="/income" type="button" class="operations-btn btn btn-danger">Отмена</a>
         </div>
     </form>

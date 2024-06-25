@@ -120,6 +120,8 @@ export class IncomeAndExpensesEdit {
     async updateOperation(e) {
         e.preventDefault();
         if (this.validateForm()) {
+            const date = new Date(this.dateElement.value);
+            this.dateElement.value = date.toISOString().slice(0, 10);
             const result = await HttpUtils.request('/operations/' + this.operationOriginalData.id, 'PUT', true, {
                 type: this.typeSelectElement.value,
                 amount: this.sumElement.value,

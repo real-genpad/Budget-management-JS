@@ -1,6 +1,6 @@
 export class DateFilter { //отвечает за выбор периода и интервалов дат
-    constructor(fetchOperations) {
-        this.fetchOperations = fetchOperations; //при изменении фильтра делает новый запрос на сервер(метод из файла income-expenses.js)
+    constructor(getOperations) {
+        this.getOperations = getOperations; //при изменении фильтра делает новый запрос на сервер(метод из файла income-expenses.js)
         this.periodButtons = document.querySelectorAll('.diagram-btn');
         this.startDatePicker = document.getElementById('start-date');
         this.endDatePicker = document.getElementById('end-date');
@@ -35,7 +35,7 @@ export class DateFilter { //отвечает за выбор периода и �
 
     filterChange(period) {
         const { dateFrom, dateTo } = this.calculateDates(period); //получаем dateFrom и dateTo для запроса
-        this.fetchOperations(period, dateFrom, dateTo); //передаем полученные данные для запроса при изменении фильтра
+        this.getOperations(period, dateFrom, dateTo); //передаем полученные данные для запроса при изменении фильтра
     }
 
     calculateDates(period) { //вычисляем периоды для фильтра

@@ -27,7 +27,6 @@ export class IncomeCreate {
             if(result.redirect){
                 return this.openNewRoute(result.redirect);
             }
-
             if (result.error || !result.response || (result.response && result.response.error)) {
                 console.log(result.response.message);
                 return alert('Возникла ошибка добавлении категории дохода');

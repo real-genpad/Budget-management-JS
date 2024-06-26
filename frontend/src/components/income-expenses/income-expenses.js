@@ -4,16 +4,15 @@ import {DateFilter} from "../../config/date-filter";
 export class IncomeAndExpenses {
     constructor(openNewRoute) {
         this.openNewRoute = openNewRoute;
-        new DateFilter(this.fetchOperations.bind(this)); //создаем экземпляр класса с фильтром и передаем ему метод для запроса с фильтром
-        this.fetchOperations('today').then();
+        new DateFilter(this.getOperations.bind(this)); //создаем экземпляр класса с фильтром и передаем ему метод для запроса с фильтром
+        this.getOperations('today').then();
     }
 
-    async fetchOperations(period, dateFrom = '', dateTo = '') { //запрос на сервер для получения операций с фильтром
-        let url = '/operations?period=all';
-        if (period !== 'all') {
-            url = '/operations?period=interval&dateFrom=' + dateFrom + '&dateTo=' + dateTo;
+    async getOperations(period, dateFrom = '', dateTo = '') { //запрос на сервер для получения операций с фильтром
+        let url = '/operations?period=interval&dateFrom=' + dateFrom + '&dateTo=' + dateTo; //данные подставляются из фильтра
+        if (period === 'all') {
+            url = '/operations?period=all';
         }
-
         const result = await HttpUtils.request(url);
         if (result.redirect) {
             return this.openNewRoute(result.redirect);

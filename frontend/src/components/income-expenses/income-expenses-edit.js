@@ -16,6 +16,10 @@ export class IncomeAndExpensesEdit {
         this.incomeOperation = null; //сюда сохраним массив с категориями доходов
         this.expenseOperation = null; //сюда сохраним массив с категориями расходов
 
+        this.dateElement.addEventListener('focus', () => {
+            this.dateElement.setAttribute('type', 'date');
+        });
+
         this.getOperation(id).then();
 
         this.typeSelectElement.addEventListener('change', () => { //если юзер поменял тип в селекте, то меняем наполнение для категорий
@@ -36,7 +40,7 @@ export class IncomeAndExpensesEdit {
             return alert('Возникла ошибка при запросе операции');
         }
         console.log(result.response);
-        this.operationOriginalData = result.response; //сохраняем объект с оригинальными данными для сравнения с отредактированными перед отправкой
+        this.originalData = result.response; //сохраняем объект с данными для подстановки id в запрос на сохранение
 
         //сразу определяем тип операции в селекте, чтобы категории потом подгружались верно
         for (let i = 0; i < this.typeSelectElement.options.length; i++) {
@@ -89,14 +93,23 @@ export class IncomeAndExpensesEdit {
             }
         }
         this.sumElement.value = operation.amount;
-        const date = new Date(operation.date);
-        this.dateElement.value = date.toLocaleDateString('ru-Ru');
+        this.date = new Date(this.originalData.date);
+        this.dateElement.value = this.date.toLocaleDateString('ru-RU');
+
         this.commentElement.value = operation.comment;
+
+        //возвращаем дату, если пользователь не стал ее менять пссле нажатия на инпут
+        this.dateElement.addEventListener('blur', () => {
+            if (this.dateElement.value === '') {
+                this.dateElement.value = this.date.toISOString().slice(0, 10);
+            }
+        });
     }
 
     validateForm() { //валидация формы на заполненность полей, кроме селектов
         let isValid = true;
-        if (this.sumElement.value) {
+        const regex = /^[1-9]\d*$/;
+        if (this.sumElement.value !== '' && regex.test(this.sumElement.value)) {
             this.sumElement.classList.remove('is-invalid');
         } else {
             this.sumElement.classList.add('is-invalid');
@@ -122,7 +135,7 @@ export class IncomeAndExpensesEdit {
         if (this.validateForm()) {
             const date = new Date(this.dateElement.value);
             this.dateElement.value = date.toISOString().slice(0, 10);
-            const result = await HttpUtils.request('/operations/' + this.operationOriginalData.id, 'PUT', true, {
+            const result = await HttpUtils.request('/operations/' + this.originalData.id, 'PUT', true, {
                 type: this.typeSelectElement.value,
                 amount: this.sumElement.value,
                 date: this.dateElement.value,

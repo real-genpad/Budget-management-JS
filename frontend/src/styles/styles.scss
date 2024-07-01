@@ -39,6 +39,11 @@ body {
   font-weight: 500;
 }
 
+.diagram-periods .date {
+  width: auto;
+  display: inline-block;
+}
+
 .diagram-periods .diagram-btn.active {
   color: $main-text-active-color;
 }
@@ -143,6 +148,10 @@ body {
   gap: 20px;
 }
 
+.cards .card.card-new {
+  cursor: pointer;
+}
+
 .cards .card-body {
   width: 352px;
 }
@@ -158,7 +167,7 @@ body {
   min-height: 100px;
 }
 
-.cards .card-body-new a {
+.cards .card-body-new span {
   text-decoration: none;
   color: $plus-sign-color;
 }

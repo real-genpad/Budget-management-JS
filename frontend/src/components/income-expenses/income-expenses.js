@@ -1,5 +1,5 @@
 import {HttpUtils} from "../../utils/http-utils";
-import {DateFilter} from "../../config/date-filter";
+import {DateFilter} from "../../services/date-filter";
 
 export class IncomeAndExpenses {
     constructor(openNewRoute) {

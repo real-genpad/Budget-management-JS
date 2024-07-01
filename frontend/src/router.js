@@ -4,18 +4,14 @@ import {SignUp} from "./components/sign-up";
 import {IncomeAndExpenses} from "./components/income-expenses/income-expenses";
 import {IncomeAndExpensesCreate} from "./components/income-expenses/income-expenses-create";
 import {IncomeAndExpensesEdit} from "./components/income-expenses/income-expenses-edit";
-import {Income} from "./components/income/income";
-import {IncomeEdit} from "./components/income/income-edit";
-import {IncomeCreate} from "./components/income/income-create";
-import {Expenses} from "./components/expenses/expenses";
-import {ExpensesEdit} from "./components/expenses/expenses-edit";
-import {ExpensesCreate} from "./components/expenses/expenses-create";
 import {Logout} from "./components/logout";
 import {IncomeAndExpensesDelete} from "./components/income-expenses/income-expenses-delete";
-import {IncomeDelete} from "./components/income/income-delete";
-import {ExpensesDelete} from "./components/expenses/expenses-delete";
 import {AuthUtils} from "./utils/auth-utils";
 import {HttpUtils} from "./utils/http-utils";
+import {CreateCategory} from "./components/category/create-category";
+import {Category} from "./components/category/category";
+import {EditCategory} from "./components/category/edit-category";
+import {DeleteCategory} from "./components/category/delete-category";
 
 export class Router {
     constructor() {
@@ -101,75 +97,75 @@ export class Router {
             {
                 route: '/income',
                 title: 'Доходы',
-                filePathTemplate: '/templates/income/income.html',
+                filePathTemplate: '/templates/category/category.html',
                 useLayout: '/templates/layout.html',
                 requiresAuth: true,
                 load: () => {
-                    new Income(this.openNewRoute.bind(this));
+                    new Category(this.openNewRoute.bind(this), 'income');
                 },
             },
             {
                 route: '/income-edit',
                 title: 'Редактирование категории доходов',
-                filePathTemplate: '/templates/income/income-edit.html',
+                filePathTemplate: '/templates/category/edit-category.html',
                 useLayout: '/templates/layout.html',
                 requiresAuth: true,
                 load: () => {
-                    new IncomeEdit(this.openNewRoute.bind(this));
+                    new EditCategory(this.openNewRoute.bind(this), 'income');
                 },
             },
             {
                 route: '/income-create',
                 title: 'Создание категории доходов',
-                filePathTemplate: '/templates/income/income-create.html',
+                filePathTemplate: '/templates/category/create-category.html',
                 useLayout: '/templates/layout.html',
                 requiresAuth: true,
                 load: () => {
-                    new IncomeCreate(this.openNewRoute.bind(this));
+                    new CreateCategory(this.openNewRoute.bind(this), 'income');
                 },
             },
             {
                 route: '/income-delete',
                 requiresAuth: false,
                 load: () => {
-                    new IncomeDelete(this.openNewRoute.bind(this));
+                    new DeleteCategory(this.openNewRoute.bind(this), 'income');
                 },
             },
             {
-                route: '/expenses',
+                route: '/expense',
                 title: 'Расходы',
-                filePathTemplate: '/templates/expenses/expenses.html',
+                filePathTemplate: '/templates/category/category.html',
                 useLayout: '/templates/layout.html',
                 requiresAuth: true,
                 load: () => {
-                    new Expenses(this.openNewRoute.bind(this));
+                    new Category(this.openNewRoute.bind(this), 'expense');
                 },
             },
             {
-                route: '/expenses-edit',
+                route: '/expense-edit',
                 title: 'Редактирование категории расходов',
-                filePathTemplate: '/templates/expenses/expenses-edit.html',
+                filePathTemplate: '/templates/category/edit-category.html',
                 useLayout: '/templates/layout.html',
                 requiresAuth: true,
                 load: () => {
-                    new ExpensesEdit(this.openNewRoute.bind(this));
+                    new EditCategory(this.openNewRoute.bind(this), 'expense');
                 },
             },
             {
-                route: '/expenses-create',
+                route: '/expense-create',
                 title: 'Создание категории расходов',
-                filePathTemplate: '/templates/expenses/expenses-create.html',
+                filePathTemplate: '/templates/category/create-category.html',
                 useLayout: '/templates/layout.html',
                 requiresAuth: true,
                 load: () => {
-                    new ExpensesCreate(this.openNewRoute.bind(this));
+                    new CreateCategory(this.openNewRoute.bind(this), 'expense');
                 },
             },
             {
-                route: '/expenses-delete',
+                route: '/expense-delete',
                 requiresAuth: false,
                 load: () => {
-                    new ExpensesDelete(this.openNewRoute.bind(this));
+                    new DeleteCategory(this.openNewRoute.bind(this), 'expense');
                 },
             },
             {

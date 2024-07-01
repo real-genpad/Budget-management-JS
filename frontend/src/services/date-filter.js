@@ -4,6 +4,12 @@ export class DateFilter { //отвечает за выбор периода и �
         this.periodButtons = document.querySelectorAll('.diagram-btn');
         this.startDatePicker = document.getElementById('start-date');
         this.endDatePicker = document.getElementById('end-date');
+        this.startDatePicker.addEventListener('focus', () => {
+            this.startDatePicker.setAttribute('type', 'date');
+        });
+        this.endDatePicker.addEventListener('focus', () => {
+            this.endDatePicker.setAttribute('type', 'date');
+        });
         this.initButtonsListeners();
     }
 

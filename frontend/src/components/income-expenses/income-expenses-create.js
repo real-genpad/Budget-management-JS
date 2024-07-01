@@ -10,6 +10,10 @@ export class IncomeAndExpensesCreate {
         this.sumElement = document.getElementById('sum');
         this.dateElement = document.getElementById('date');
         this.commentElement = document.getElementById('floatingTextarea');
+
+        this.dateElement.addEventListener('focus', () => {
+            this.dateElement.setAttribute('type', 'date');
+        });
         this.getExpenseCategories().then();
         this.getIncomeCategories().then();
 
@@ -67,7 +71,8 @@ export class IncomeAndExpensesCreate {
             this.categorySelectElement.classList.add('is-invalid');
             isValid = false;
         }
-        if(this.sumElement.value){
+        const regex = /^[1-9]\d*$/;
+        if (this.sumElement.value !== '' && regex.test(this.sumElement.value)) {
             this.sumElement.classList.remove('is-invalid');
         } else {
             this.sumElement.classList.add('is-invalid');

@@ -1,4 +1,4 @@
-import {DateFilter} from "../config/date-filter";
+import {DateFilter} from "../services/date-filter";
 import {HttpUtils} from "../utils/http-utils";
 import Chart from 'chart.js/auto';
 

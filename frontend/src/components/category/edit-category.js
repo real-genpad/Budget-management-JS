@@ -1,20 +1,24 @@
 import {HttpUtils} from "../../utils/http-utils";
 
-export class ExpensesEdit {
-    constructor(openNewRoute) {
+export class EditCategory{
+    constructor(openNewRoute, categoryType) {
         this.openNewRoute = openNewRoute;
+        this.categoryType = categoryType;
         const urlParams = new URLSearchParams(window.location.search);
         this.id = urlParams.get('id');
         if (!this.id) {
             return this.openNewRoute('/');
         }
         this.inputElement = document.querySelector('input');
-        this.getOperation(this.id).then();
+        const category = this.categoryType === 'income' ? 'доходов' : 'расходов';
+        document.querySelector('.category-header').innerHTML = `Редактирование категории ${category}`;
         document.getElementById('save-button').addEventListener('click', this.editCategory.bind(this));
+        document.getElementById('cancel-button').addEventListener('click', () => this.openNewRoute(`/${this.categoryType}`));
+        this.getOperation(this.id).then();
     }
 
     async getOperation(id) { //получаем данные для таблицы
-        const result = await HttpUtils.request('/categories/expense/' + id);
+        const result = await HttpUtils.request(`/categories/${this.categoryType}/` + id);
         if (result.redirect) {
             return this.openNewRoute(result.redirect);
         }
@@ -45,7 +49,7 @@ export class ExpensesEdit {
     async editCategory(e){
         e.preventDefault;
         if(this.validateForm()){
-            const result = await HttpUtils.request('/categories/expense/' + this.id, 'PUT', true, {
+            const result = await HttpUtils.request(`/categories/${this.categoryType}/` + this.id, 'PUT', true, {
                 title: this.inputElement.value
             });
             if(result.redirect){
@@ -53,9 +57,10 @@ export class ExpensesEdit {
             }
             if (result.error || !result.response || (result.response && result.response.error)) {
                 console.log(result.response.message);
-                return alert('Возникла ошибка редактировании категории дохода');
+                const category = this.categoryType === 'income' ? 'дохода' : 'расхода';
+                return alert(`Возникла ошибка редактировании категории ${category}`);
             }
-            return this.openNewRoute('/expenses');
+            return this.openNewRoute(`/${this.categoryType}`);
         }
     }
 }

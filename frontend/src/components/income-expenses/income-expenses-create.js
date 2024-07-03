@@ -14,26 +14,36 @@ export class IncomeAndExpensesCreate {
         this.dateElement.addEventListener('focus', () => {
             this.dateElement.setAttribute('type', 'date');
         });
-        this.getExpenseCategories().then();
-        this.getIncomeCategories().then();
 
-        this.typeSelectElement.addEventListener('change', () => { //если юзер поменял тип в селекте, то меняем наполнение для категорий
+        this.getTypeOfOperation(); //определяем тип, который изначально выбрал пользователь
+        this.typeSelectElement.addEventListener('change', () => { //обработчик события на изменение селекта типа
             this.showCategories(this.incomeOperation, this.expenseOperation);
         });
 
         document.getElementById('create-button').addEventListener('click', this.saveOperation.bind(this));
     }
 
+    async getTypeOfOperation(){
+        const urlParams = new URLSearchParams(window.location.search);
+        const type = urlParams.get('type');
+        if(type === 'income'){
+            this.typeSelectElement.value = 'income';
+        } else {
+            this.typeSelectElement.value = 'expense';
+        }
+        await this.getIncomeCategories();
+        await this.getExpenseCategories();
+        this.showCategories(this.incomeOperation, this.expenseOperation);
+    }
+
     async getIncomeCategories() { //получаем категории для доходов
         const result = await HttpUtils.request('/categories/income');
         this.incomeOperation = result.response;
-        this.showCategories(this.incomeOperation, []);
     }
 
     async getExpenseCategories() { //подучаем категории для расходов
         const result = await HttpUtils.request('/categories/expense');
         this.expenseOperation = result.response;
-        this.showCategories([], this.expenseOperation);
     }
 
     showCategories(incomeOperation, expenseOperation) { //наполняем селекты в зависимости от выбранного типа

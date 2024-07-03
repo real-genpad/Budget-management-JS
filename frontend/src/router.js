@@ -13,6 +13,8 @@ import {Category} from "./components/category/category";
 import {EditCategory} from "./components/category/edit-category";
 import {DeleteCategory} from "./components/category/delete-category";
 
+import Modal from 'bootstrap/js/dist/modal.js';
+
 export class Router {
     constructor() {
         this.initEvents();
@@ -237,6 +239,7 @@ export class Router {
                 let contentBlock = this.contentPageElement;
                 if (newRoute.useLayout) { //если на странице есть сайдбар, наполняем его данными и подсвечиваем ссылки
                     this.contentPageElement.innerHTML = await fetch(newRoute.useLayout).then(response => response.text());
+                    this.modal = new Modal('#balanceModal');
                     contentBlock = document.getElementById('content-layout');
 
                     //находим элементы для сайдбара
@@ -244,7 +247,6 @@ export class Router {
                     this.profileNameElementMenu = document.getElementById('profile-name-menu');
                     this.balanceElement = document.getElementById('balance');
                     this.balanceElementMenu = document.getElementById('balance-menu');
-                    this.modal = document.getElementById("customModal");
                     const balanceLink = document.getElementById("balance-link");
                     const confirmBalanceBtn = document.getElementById("confirm-balance-btn");
                     const cancelBalanceBtn = document.getElementById("cancel-balance-btn");
@@ -264,17 +266,17 @@ export class Router {
                     this.activateMenuItem(newRoute); //подсвечиваем активные ссылки
                     this.showBalance().then(); //показываем баланс
 
-                    // открываем модальне окно при нажатии на ссылку "Баланс"
-                    // balanceLink.addEventListener("click", () => {
-                    //     this.modal.style.display = "block";
-                    // });
+                    //открываем модальне окно при нажатии на ссылку "Баланс"
+                    balanceLink.addEventListener("click", () => {
+                        this.modal.show();
+                    });
                     //закрываем модальное окно при нажатии на кнопку "Отменить"
-                    // cancelBalanceBtn.addEventListener("click", () => {
-                    //     this.balanceInput.value = ''; // Сбросить значение инпута
-                    //     this.modal.style.display = "none";
-                    // });
+                    cancelBalanceBtn.addEventListener("click", () => {
+                        this.balanceInput.value = ''; // Сбросить значение инпута
+                        this.modal.hide();
+                    });
                     //обновляем баланс
-                    //confirmBalanceBtn.addEventListener('click', this.editBalance.bind(this));
+                    confirmBalanceBtn.addEventListener('click', this.editBalance.bind(this));
 
                 }
                 contentBlock.innerHTML = await fetch(newRoute.filePathTemplate).then(response => response.text());
@@ -325,18 +327,16 @@ export class Router {
         const result = await HttpUtils.request('/balance', 'PUT', true, {
             newBalance: this.balanceInput.value
         });
+        this.modal.hide();
         if (result.redirect) {
-            this.modal.style.display = "none";
             return this.openNewRoute(result.redirect);
         }
         if (result.error || !result.response || (result.response && result.response.error)) {
-            this.modal.style.display = "none";
             return alert('Возникла ошибка при обновлении баланса');
         }
         if (result.response.balance) {
             this.balanceElement.innerText = result.response.balance;
             this.balanceElementMenu.innerText = result.response.balance;
-            this.modal.style.display = "none";
         }
     }
 }

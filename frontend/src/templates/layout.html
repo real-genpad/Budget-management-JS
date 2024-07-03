@@ -44,7 +44,7 @@
                 </li>
             </ul>
             <div class="balance p-3">
-                <a href="javascript:void(0)" type="button" class="text-decoration-none m-0" id="balance-link">
+                <a href="javascript:void(0)" role="button" class="text-decoration-none m-0" id="balance-link">
                     Баланс: <span class="balance text-primary" id="balance"></span>
                     <span class="text-primary">$</span>
                 </a>
@@ -106,7 +106,7 @@
                         </li>
                     </ul>
                     <div class="balance p-3 ps-0">
-                        <a href="javascript:void(0)" type="button" class="text-decoration-none m-0">Баланс:
+                        <a href="javascript:void(0)" role="button" class="text-decoration-none m-0">Баланс:
                             <span class="balance text-primary" id="balance-menu"></span>
                             <span class="text-primary">$</span>
                         </a>
@@ -115,7 +115,7 @@
                         <img src="/images/Icon.png" alt="user" width="32" height="32" class="rounded-circle me-1">
                         <a href="javascript:void(0)" id="profile-name-menu"
                            class="d-flex align-items-center p-1 link-body-emphasis text-decoration-none dropdown-toggle"
-                           data-bs-toggle="dropdown" aria-expanded="false"></a>
+                           data-bs-toggle="dropdown" aria-expanded="false" role="button"></a>
                         <ul class="dropdown-menu p-0" style="">
                             <li><a href="/logout" class="dropdown-item text-primary">Logout</a></li>
                         </ul>
@@ -124,6 +124,21 @@
                 <hr>
             </div>
         </nav>
+
+        <div class="modal fade" id="balanceModal" aria-hidden="true" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <label for="edit-balance" class="form-label">Введите сумму</label>
+                        <input type="text" class="form-control w-100" id="edit-balance">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="confirm-balance-btn" class="btn btn-success">Подтвердить</button>
+                        <button type="button" id="cancel-balance-btn" class="btn btn-danger">Отменить</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!--<div id="customModal" class="custom-modal">
             <div class="custom-modal-content">

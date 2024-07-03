@@ -37,9 +37,9 @@ export class IncomeAndExpenses {
             const date = new Date(operations[i].date);
             trElement.insertCell().innerText = date.toLocaleDateString('ru-Ru');
             trElement.insertCell().innerText = operations[i].comment;
-            trElement.insertCell().innerHTML = '<a href="javascript:void(0)" class="btn delete-btn" data-id="' + operations[i].id + '" type="button" ' +
+            trElement.insertCell().innerHTML = '<a href="javascript:void(0)" class="btn delete-btn" data-id="' + operations[i].id + '" role="button" ' +
                 'data-bs-toggle="modal" data-bs-target="#exampleModalCenter"><i class="bi bi-trash"></i></a>' +
-                '<a href="/income-and-expenses-edit?id=' + operations[i].id + '" class="btn" type="button"><i class="bi bi-pencil"></i></a>';
+                '<a href="/income-and-expenses-edit?id=' + operations[i].id + '" class="btn" role="button"><i class="bi bi-pencil"></i></a>';
 
             recordsElement.appendChild(trElement);
         }

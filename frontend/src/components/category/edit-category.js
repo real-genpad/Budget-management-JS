@@ -9,7 +9,7 @@ export class EditCategory{
         if (!this.id) {
             return this.openNewRoute('/');
         }
-        this.inputElement = document.querySelector('input');
+        this.inputElement = document.querySelector('.edit-input');
         const category = this.categoryType === 'income' ? 'доходов' : 'расходов';
         document.querySelector('.category-header').innerHTML = `Редактирование категории ${category}`;
         document.getElementById('save-button').addEventListener('click', this.editCategory.bind(this));

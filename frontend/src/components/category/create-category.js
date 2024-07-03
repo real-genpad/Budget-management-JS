@@ -4,7 +4,7 @@ export class CreateCategory {
     constructor(openNewRoute, categoryType) {
         this.openNewRoute = openNewRoute;
         this.categoryType = categoryType;
-        this.inputElement = document.querySelector('input');
+        this.inputElement = document.querySelector('.edit-input');
         document.getElementById('create-button').addEventListener('click', this.saveCategory.bind(this));
         document.getElementById('cancel-button').addEventListener('click', () => this.openNewRoute(`/${this.categoryType}`));
         const category = this.categoryType === 'income' ? 'доходов' : 'расходов';

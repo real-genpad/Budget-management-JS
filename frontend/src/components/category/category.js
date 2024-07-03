@@ -37,13 +37,13 @@ export class Category{
 
             const editElement = document.createElement('a');
             editElement.setAttribute('href', `/${this.categoryType}-edit?id=` + category[i].id);
-            editElement.setAttribute('type', 'button');
+            editElement.setAttribute('role', 'button');
             editElement.className = 'operations-btn btn btn-primary';
             editElement.innerHTML = 'Редактировать';
 
             const deleteElement = document.createElement('a');
             deleteElement.setAttribute('href', 'javascript:void(0)');
-            deleteElement.setAttribute('type', 'button');
+            deleteElement.setAttribute('role', 'button');
             deleteElement.setAttribute('data-id', category[i].id);
             deleteElement.setAttribute('data-bs-toggle', 'modal');
             deleteElement.setAttribute('data-bs-target', '#exampleModalCenter');

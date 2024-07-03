@@ -2,8 +2,8 @@
     <h1 class="main-header income-and-expenses-header h3">Доходы и расходы</h1>
 
     <div class="create-operations">
-        <a href="/income-and-expenses-create" type="button" class="operations-btn btn btn-success">Создать доход</a>
-        <a href="/income-and-expenses-create" type="button" class="operations-btn btn btn-danger">Создать расход</a>
+        <a href="/income-and-expenses-create?type=income" id="create-income" role="button" class="operations-btn btn btn-success">Создать доход</a>
+        <a href="/income-and-expenses-create?type=expense" id="create-expense" role="button" class="operations-btn btn btn-danger">Создать расход</a>
     </div>
 
     <div class="operations-diagram-periods diagram-periods d-flex gap-3 align-items-center">
@@ -12,7 +12,7 @@
         <button type="button" class="diagram-btn btn btn-outline-secondary" data-period="month">Месяц</button>
         <button type="button" class="diagram-btn btn btn-outline-secondary" data-period="year">Год</button>
         <button type="button" class="diagram-btn btn btn-outline-secondary" data-period="all">Все</button>
-        <p type="button" class="diagram-btn btn btn-outline-secondary m-0" data-period="interval">Интервал</p>
+        <p role="button" class="diagram-btn btn btn-outline-secondary m-0" data-period="interval">Интервал</p>
         <span>с</span>
         <input type="text" size="3" id="start-date" name="start" placeholder="Дата" class="date text-decoration-underline border-0">
         <span>по</span>
@@ -45,9 +45,9 @@
                         <p>Вы действительно хотите удалить операцию?</p>
                     </div>
                     <div class="modal-footer">
-                        <a href="javascript:void(0)" id="delete-btn" type="button" class="modal-btn btn btn-success"
+                        <a href="javascript:void(0)" id="delete-btn" role="button" class="modal-btn btn btn-success"
                            data-bs-dismiss="modal">Да, удалить</a>
-                        <a href="javascript:void(0)" type="button" class="modal-btn btn btn-danger"
+                        <a href="javascript:void(0)" role="button" class="modal-btn btn btn-danger"
                            data-bs-dismiss="modal">Не удалять</a>
                     </div>
                 </div>

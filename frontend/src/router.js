@@ -19,7 +19,7 @@ export class Router {
     constructor() {
         this.initEvents();
         this.titlePageElement = document.getElementById('title');
-        this.contentPageElement = document.getElementById('content');
+        this.contentPageElement = null; //сюда будем вставлять контент
         this.routes = [
             {
                 route: '/',
@@ -236,48 +236,52 @@ export class Router {
             }
 
             if (newRoute.filePathTemplate) {
-                let contentBlock = this.contentPageElement;
+                let contentBlock = document.getElementById('content');
                 if (newRoute.useLayout) { //если на странице есть сайдбар, наполняем его данными и подсвечиваем ссылки
-                    this.contentPageElement.innerHTML = await fetch(newRoute.useLayout).then(response => response.text());
-                    this.modal = new Modal('#balanceModal');
-                    contentBlock = document.getElementById('content-layout');
+                    if(!this.contentPageElement){
+                        this.contentPageElement = document.getElementById('content');
+                        this.contentPageElement.innerHTML = await fetch(newRoute.useLayout).then(response => response.text());
+                        this.modal = new Modal('#balanceModal');
 
-                    //находим элементы для сайдбара
-                    this.profileNameElement = document.getElementById('profile-name');
-                    this.profileNameElementMenu = document.getElementById('profile-name-menu');
-                    this.balanceElement = document.getElementById('balance');
-                    this.balanceElementMenu = document.getElementById('balance-menu');
-                    const balanceLink = document.getElementById("balance-link");
-                    const confirmBalanceBtn = document.getElementById("confirm-balance-btn");
-                    const cancelBalanceBtn = document.getElementById("cancel-balance-btn");
-                    this.balanceInput = document.getElementById("edit-balance");
+                        //находим элементы для сайдбара
+                        this.profileNameElement = document.getElementById('profile-name');
+                        this.profileNameElementMenu = document.getElementById('profile-name-menu');
+                        this.balanceElement = document.getElementById('balance');
+                        this.balanceElementMenu = document.getElementById('balance-menu');
+                        const balanceLink = document.getElementById("balance-link");
+                        const confirmBalanceBtn = document.getElementById("confirm-balance-btn");
+                        const cancelBalanceBtn = document.getElementById("cancel-balance-btn");
+                        this.balanceInput = document.getElementById("edit-balance");
 
-                    //вставляем имя пользователя
-                    if (this.profileNameElement.innerText === '' || this.profileNameElementMenu.innerText === '') {
-                        let userInfo = AuthUtils.getAuthInfo(AuthUtils.userInfoTokenKey);
-                        if (userInfo) {
-                            userInfo = JSON.parse(userInfo);
-                            if (userInfo.name) {
-                                this.profileNameElement.innerText = userInfo.name;
-                                this.profileNameElementMenu.innerText = userInfo.name;
+                        //вставляем имя пользователя
+                        if (this.profileNameElement.innerText === '' || this.profileNameElementMenu.innerText === '') {
+                            let userInfo = AuthUtils.getAuthInfo(AuthUtils.userInfoTokenKey);
+                            if (userInfo) {
+                                userInfo = JSON.parse(userInfo);
+                                if (userInfo.name) {
+                                    this.profileNameElement.innerText = userInfo.name;
+                                    this.profileNameElementMenu.innerText = userInfo.name;
+                                }
                             }
                         }
+                        this.showBalance().then(); //показываем баланс
+
+                        //открываем модальне окно при нажатии на ссылку "Баланс"
+                        balanceLink.addEventListener("click", () => {
+                            this.modal.show();
+                        });
+                        //закрываем модальное окно при нажатии на кнопку "Отменить"
+                        cancelBalanceBtn.addEventListener("click", () => {
+                            this.balanceInput.value = ''; // Сбросить значение инпута
+                            this.modal.hide();
+                        });
+                        //обновляем баланс
+                        confirmBalanceBtn.addEventListener('click', this.editBalance.bind(this));
                     }
                     this.activateMenuItem(newRoute); //подсвечиваем активные ссылки
-                    this.showBalance().then(); //показываем баланс
-
-                    //открываем модальне окно при нажатии на ссылку "Баланс"
-                    balanceLink.addEventListener("click", () => {
-                        this.modal.show();
-                    });
-                    //закрываем модальное окно при нажатии на кнопку "Отменить"
-                    cancelBalanceBtn.addEventListener("click", () => {
-                        this.balanceInput.value = ''; // Сбросить значение инпута
-                        this.modal.hide();
-                    });
-                    //обновляем баланс
-                    confirmBalanceBtn.addEventListener('click', this.editBalance.bind(this));
-
+                    contentBlock = document.getElementById('content-layout');
+                } else {
+                    this.contentPageElement = null;
                 }
                 contentBlock.innerHTML = await fetch(newRoute.filePathTemplate).then(response => response.text());
             }
@@ -299,7 +303,7 @@ export class Router {
     activateMenuItem(route) {
         document.querySelectorAll('.sidebar .nav-link, .navbar .nav-link').forEach(item => {
             const href = item.getAttribute('href');
-            if ((route.route.includes(href) && href !== '/') || (route.route === '/' && href === '/')) {
+            if (route.route === href) {
                 item.classList.add('active');
             } else {
                 item.classList.remove('active');

@@ -264,9 +264,9 @@ export class Router {
                                 }
                             }
                         }
-                        this.showBalance().then(); //показываем баланс
+                        await this.showBalance(); //показываем баланс
 
-                        //открываем модальне окно при нажатии на ссылку "Баланс"
+                        //открываем модальное окно при нажатии на ссылку "Баланс"
                         balanceLink.addEventListener("click", () => {
                             this.modal.show();
                         });
